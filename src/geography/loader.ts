@@ -1,5 +1,6 @@
 import { geographicRetryDelay } from './retry.ts';
 import { Worker } from 'node:worker_threads';
+import { sibling } from '../sibling.ts';
 import { GeographicCache } from './cache.ts';
 import type { GeographicEvidence, GeographicFix } from './types.ts';
 
@@ -29,7 +30,7 @@ export class LocalGeography implements GeographyLoader {
   private readonly onUpdate: (result: GeographyUpdate) => void;
   constructor(directory: string, onUpdate: (result: GeographyUpdate) => void, options:{now?:()=>number;createWorker?:()=>Worker}={}) {
     this.directory=directory; this.onUpdate=onUpdate;this.now=options.now??Date.now;
-    this.createWorker=options.createWorker??(()=>new Worker(new URL('./worker.ts',import.meta.url), {workerData:{directory:this.directory},resourceLimits:{maxOldGenerationSizeMb:256,maxYoungGenerationSizeMb:32}}));
+    this.createWorker=options.createWorker??(()=>new Worker(sibling('worker',import.meta.url), {workerData:{directory:this.directory},resourceLimits:{maxOldGenerationSizeMb:256,maxYoungGenerationSizeMb:32}}));
     const cache=new GeographicCache(directory);
     const maintain=()=>{
       if(this.worker||this.terminating||this.maintenanceRun||this.closed)return;

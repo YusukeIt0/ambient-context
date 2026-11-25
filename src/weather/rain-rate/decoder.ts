@@ -1,5 +1,6 @@
 import { execFile } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { sibling } from '../../sibling.ts';
 import type { WeatherPoint } from '../types.ts';
 import type { RainRateFrame } from './discovery.ts';
 import { sampleSchema, type RainRateSample } from './raster.ts';
@@ -30,7 +31,7 @@ async function runDecoder(framePath: string, edition: CheckedRainRateFrame, poin
     signal.throwIfAborted();
     return await new Promise<RainRateSample | null>((resolve, reject) => {
       const args = ['--wasm-max-mem-pages=1024', '--max-old-space-size=64',
-        fileURLToPath(new URL('./decoder-process.ts', import.meta.url))];
+        fileURLToPath(sibling('decoder-process', import.meta.url))];
       const child = execFile(process.execPath, args, {timeout: 5_000, killSignal: 'SIGKILL', maxBuffer: 32_768, env: {}}, (error, stdout) => {
         signal.removeEventListener('abort', abort);
         if (signal.aborted) { reject(signal.reason); return; }

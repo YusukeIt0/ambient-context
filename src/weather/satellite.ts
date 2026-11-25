@@ -25,7 +25,8 @@ function clocks(read: NearbyRainRead) {
     acquisition_started_at: frame.requested === undefined ? null : iso(frame.requested),
   };
 }
-function project(read: NearbyRainRead, previous: NearbyRainRead | undefined, availableAt: number) {
+/** Projects decoded frames into the published evidence shape. */
+export function project(read: NearbyRainRead, previous: NearbyRainRead | undefined, availableAt: number) {
   const {sample} = read;
   const matched = previous && compareRainRateSamples(previous.sample, sample);
   const comparison = previous && matched?.length ? {...clocks(previous), available_at: iso(availableAt), areas: matched} : undefined;

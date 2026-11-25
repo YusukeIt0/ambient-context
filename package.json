@@ -5,9 +5,55 @@
   "description": "Open-source environmental context for ambient AI: surroundings from Overture Maps, forecasts from MET Norway and nearby satellite rain estimates from NOAA.",
   "license": "MIT",
   "type": "module",
-  "engines": { "node": ">=22.18.0" },
+  "engines": {
+    "node": ">=22.18.0"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./overture": {
+      "types": "./dist/overture.d.ts",
+      "default": "./dist/overture.js"
+    },
+    "./met-norway": {
+      "types": "./dist/met-norway.d.ts",
+      "default": "./dist/met-norway.js"
+    },
+    "./noaa-rain-rate": {
+      "types": "./dist/noaa-rain-rate.d.ts",
+      "default": "./dist/noaa-rain-rate.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "LICENSE.dot-link",
+    "h5wasm-NOTICE.txt",
+    "README.md"
+  ],
   "scripts": {
-    "test": "node --test test/*.test.ts test/*.test.mjs"
+    "build": "rm -rf dist && tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "node --test test/*.test.ts test/*.test.mjs",
+    "test:package": "npm run build && node --test test/package.integration.mjs"
+  },
+  "keywords": [
+    "ambient-ai",
+    "ai-agents",
+    "context",
+    "geospatial",
+    "overture-maps",
+    "weather",
+    "met-norway",
+    "noaa",
+    "precipitation"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YusukeIt0/ambient-context.git"
   },
   "dependencies": {
     "h5wasm": "0.10.3",
