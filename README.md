@@ -135,7 +135,7 @@ npm run test:package   # builds, packs and checks the installed package
 
 ### Origins
 
-Ambient Context began as a copy of the environmental-context modules of [Dot Link](https://github.com/YusukeIt0/dot-link) at commit [`59eb9c0`](https://github.com/YusukeIt0/dot-link/commit/59eb9c0eccb11ed058eddcb7998744feda05961d) and is maintained independently. On real data downloaded once and given to both, the copy produced the same results as that commit (Bangkok, Overture release 2026-11-18.0 and a NOAA frame of November 25, 2026); run `scripts/compare-with-dot-link.mjs` to repeat the check.
+Ambient Context began as a copy of the environmental-context modules of [Dot Link](https://github.com/YusukeIt0/dot-link) at commit [`59eb9c0`](https://github.com/YusukeIt0/dot-link/commit/59eb9c0eccb11ed058eddcb7998744feda05961d) and is maintained independently. On real data downloaded once and given to both, the copy produced the same results as that commit (Bangkok: Overture release 2026-11-18.0, a NOAA frame and a MET Norway forecast, all of November 25, 2026); run `scripts/compare-with-dot-link.mjs` to repeat the check.
 
 ## License
 
