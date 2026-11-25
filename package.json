@@ -1,7 +1,6 @@
 {
   "name": "ambient-context",
   "version": "0.1.0",
-  "private": true,
   "description": "Open-source environmental context for ambient AI: surroundings from Overture Maps, forecasts from MET Norway and nearby satellite rain estimates from NOAA.",
   "license": "MIT",
   "type": "module",
@@ -29,6 +28,7 @@
   },
   "files": [
     "dist",
+    "assets",
     "LICENSE",
     "LICENSE.dot-link",
     "h5wasm-NOTICE.txt",
@@ -38,7 +38,8 @@
     "build": "rm -rf dist && tsc -p tsconfig.build.json",
     "typecheck": "tsc -p tsconfig.json",
     "test": "node --test test/*.test.ts test/*.test.mjs",
-    "test:package": "npm run build && node --test test/package.integration.mjs"
+    "test:package": "npm run build && node --test test/package.integration.mjs",
+    "prepublishOnly": "npm run typecheck && npm test && npm run build"
   },
   "keywords": [
     "ambient-ai",
@@ -51,6 +52,10 @@
     "noaa",
     "precipitation"
   ],
+  "homepage": "https://github.com/YusukeIt0/ambient-context#readme",
+  "bugs": {
+    "url": "https://github.com/YusukeIt0/ambient-context/issues"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/YusukeIt0/ambient-context.git"
