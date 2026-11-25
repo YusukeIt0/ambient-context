@@ -1,6 +1,6 @@
-import { summarizeRainRate } from '../../server/weather/rain-rate/raster.ts';
-import type { NearbyRainRead } from '../../server/weather/rain-rate/service.ts';
-import type { WeatherPoint } from '../../server/weather/types.ts';
+import { summarizeRainRate } from '../../src/weather/rain-rate/raster.ts';
+import type { NearbyRainRead } from '../../src/weather/rain-rate/service.ts';
+import type { WeatherPoint } from '../../src/weather/types.ts';
 
 export function rainFrame(point: WeatherPoint, start: number, requested: number, retrieved: number, revision: number): NearbyRainRead {
   const iso = (n: number) => new Date(n).toISOString();

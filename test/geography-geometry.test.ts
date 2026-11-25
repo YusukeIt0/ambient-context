@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { geographicEvidence, spatialRelation, validGeometry } from '../server/geography/geometry.ts';
-import type { GeographicDataset, GeographicFeature, Geometry } from '../server/geography/types.ts';
+import { geographicEvidence, spatialRelation, validGeometry } from '../src/geography/geometry.ts';
+import type { GeographicDataset, GeographicFeature, Geometry } from '../src/geography/types.ts';
 
 const fix = {latitude: 0, longitude: 0, accuracy: 10};
 const square: Geometry = {type:'Polygon', coordinates:[[[-.01,-.01],[.01,-.01],[.01,.01],[-.01,.01],[-.01,-.01]]]};

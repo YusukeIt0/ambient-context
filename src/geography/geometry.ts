@@ -1,4 +1,4 @@
-import { distanceMeters } from '../../src/location-fix.ts';
+import { distanceMeters } from './distance.ts';
 import type { GeographicDataset, GeographicEvidence, GeographicFeature, GeographicFix, GeographicReference, Geometry, Position } from './types.ts';
 
 const RAD = Math.PI / 180;

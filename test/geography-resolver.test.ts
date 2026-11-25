@@ -3,11 +3,11 @@ import assert from 'node:assert/strict';
 import { mkdtemp, readdir, rm } from 'node:fs/promises';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
-import { GeographicCache } from '../server/geography/cache.ts';
-import { GeographicResolver } from '../server/geography/resolver.ts';
-import { geographicRegion, type acquireGeography } from '../server/geography/overture.ts';
-import type { GeographicDataset, GeographicFix } from '../server/geography/types.ts';
-import type { GeographyUpdate } from '../server/geography/loader.ts';
+import { GeographicCache } from '../src/geography/cache.ts';
+import { GeographicResolver } from '../src/geography/resolver.ts';
+import { geographicRegion, type acquireGeography } from '../src/geography/overture.ts';
+import type { GeographicDataset, GeographicFix } from '../src/geography/types.ts';
+import type { GeographyUpdate } from '../src/geography/loader.ts';
 
 const first={longitude:.005,latitude:.005,accuracy:5};
 const distant={longitude:1.005,latitude:1.005,accuracy:5};

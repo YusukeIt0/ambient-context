@@ -6,10 +6,10 @@ import {spawnSync} from 'node:child_process';
 import {tmpdir} from 'node:os';
 import {crc32, gunzipSync} from 'node:zlib';
 import {DatabaseSync} from 'node:sqlite';
-import {RainRateService, type NearbyRainRead} from '../server/weather/rain-rate/service.ts';
-import {acquireFrame, chooseEdition, frameFromKey, freshFrame, parseListing, FRAME_AGE, LIST_LIMIT, OBJECT_LIMIT} from '../server/weather/rain-rate/discovery.ts';
-import {COOLDOWN, DAILY_BYTES, FETCH_TIMEOUT, RainRateCache} from '../server/weather/rain-rate/cache.ts';
-import {decodeRainRate, probeRainRateFrame, type RainRateSample} from '../server/weather/rain-rate/decoder.ts';
+import {RainRateService, type NearbyRainRead} from '../src/weather/rain-rate/service.ts';
+import {acquireFrame, chooseEdition, frameFromKey, freshFrame, parseListing, FRAME_AGE, LIST_LIMIT, OBJECT_LIMIT} from '../src/weather/rain-rate/discovery.ts';
+import {COOLDOWN, DAILY_BYTES, FETCH_TIMEOUT, RainRateCache} from '../src/weather/rain-rate/cache.ts';
+import {decodeRainRate, probeRainRateFrame, type RainRateSample} from '../src/weather/rain-rate/decoder.ts';
 
 const minute = 60_000;
 const start = Date.UTC(2026, 10, 20, 23, 50);
@@ -236,7 +236,7 @@ test('failed index commit and an interrupted publication retain the usable editi
   // SQLite and the next reader must recover without disposing of the old file.
   f.advance(COOLDOWN);
   const child=spawnSync(process.execPath,['--input-type=module','-e',
-    `import {RainRateCache} from ${JSON.stringify(new URL('../server/weather/rain-rate/cache.ts',import.meta.url).href)};
+    `import {RainRateCache} from ${JSON.stringify(new URL('../src/weather/rain-rate/cache.ts',import.meta.url).href)};
      const [dir,time,frame,crc,raw]=process.argv.slice(1);
      const cache=new RainRateCache(dir);
      const signal=new AbortController().signal;

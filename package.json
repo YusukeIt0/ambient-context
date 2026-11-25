@@ -1,0 +1,21 @@
+{
+  "name": "ambient-context",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Open-source environmental context for ambient AI: surroundings from Overture Maps, forecasts from MET Norway and nearby satellite rain estimates from NOAA.",
+  "license": "MIT",
+  "type": "module",
+  "engines": { "node": ">=22.18.0" },
+  "scripts": {
+    "test": "node --test test/*.test.ts test/*.test.mjs"
+  },
+  "dependencies": {
+    "h5wasm": "0.10.3",
+    "hyparquet": "1.33.1",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "26.6.6",
+    "typescript": "7.0.2"
+  }
+}

@@ -33,8 +33,8 @@ if (!process.env.DOTLINK_GEOGRAPHY_PARSER_TEST) {
    return column==='bbox'?[{xmin:0,xmax:.01,ymin:0,ymax:.01}]:[fixtureRows[rowStart][column]];
   }}),
  }});
- const { acquireGeography,geographicRegion }=await import('../server/geography/overture.ts');
- const { GeographicCache }=await import('../server/geography/cache.ts');
+ const { acquireGeography,geographicRegion }=await import('../src/geography/overture.ts');
+ const { GeographicCache }=await import('../src/geography/cache.ts');
  async function run(abort=-1){
   const directory=await mkdtemp(join(tmpdir(),'dot-geography-publication-'));
   controller=new AbortController();clock=0;abortAt=abort;const publications=[];

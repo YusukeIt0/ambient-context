@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { geographicRegion, overtureFeature } from '../server/geography/overture.ts';
+import { geographicRegion, overtureFeature } from '../src/geography/overture.ts';
 
 test('fixed regions are stable within a cell, cover cell seams, and split at the dateline',()=>{
  const a=geographicRegion({longitude:100.501,latitude:13.701,accuracy:5})!;

@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { zstdCompressSync } from 'node:zlib';
-import { decompressMapPage, boundedMapCompressors } from '../server/geography/compression.ts';
+import { decompressMapPage, boundedMapCompressors } from '../src/geography/compression.ts';
 
 test('map decoder bounds actual output rather than trusting compressed page metadata',()=>{
  const raw=Buffer.alloc(100_000,7), compressed=zstdCompressSync(raw);

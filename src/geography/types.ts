@@ -1,5 +1,3 @@
-import type { LocationFix } from '../../src/location-fix.ts';
-
 export type Position = [number, number];
 export type Geometry =
   | { type: 'Point'; coordinates: Position }
@@ -45,4 +43,5 @@ export interface GeographicEvidence {
   landmarks: GeographicReference[];
   limitations: string[];
 }
-export type GeographicFix = Pick<LocationFix, 'latitude' | 'longitude' | 'accuracy'>;
+/** A measured position. `accuracy` is the horizontal radius in metres (for example a phone's reported accuracy). */
+export interface GeographicFix { latitude: number; longitude: number; accuracy: number }

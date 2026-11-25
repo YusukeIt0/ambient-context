@@ -3,11 +3,11 @@ import assert from 'node:assert/strict';
 import { mkdir, mkdtemp, readFile, rename, rm, stat, symlink, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
-import { MetNorwayProvider, parseMetForecast, WeatherSourceError } from '../server/weather/met-norway.ts';
-import { WeatherCache, pruneWeatherCache, type WeatherCacheState } from '../server/weather/cache.ts';
-import { WeatherService } from '../server/weather/service.ts';
-import { archiveRetrievalConfirmed } from '../server/weather/types.ts';
-import { weatherQueryPoint, type WeatherPoint, type WeatherProvider, type WeatherProviderResult } from '../server/weather/types.ts';
+import { MetNorwayProvider, parseMetForecast, WeatherSourceError } from '../src/weather/met-norway.ts';
+import { WeatherCache, pruneWeatherCache, type WeatherCacheState } from '../src/weather/cache.ts';
+import { WeatherService } from '../src/weather/service.ts';
+import { archiveRetrievalConfirmed } from '../src/weather/types.ts';
+import { weatherQueryPoint, type WeatherPoint, type WeatherProvider, type WeatherProviderResult } from '../src/weather/types.ts';
 
 const HOUR = 3_600_000;
 const NOW = Date.parse('2026-11-10T09:20:00Z');

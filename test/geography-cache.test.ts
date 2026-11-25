@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { mkdtemp, readdir, stat, symlink, readFile, writeFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { GeographicCache } from '../server/geography/cache.ts';
+import { GeographicCache } from '../src/geography/cache.ts';
 const DAY = 86_400_000;
 
 test('map cache reuses bytes, preserves acquisition age, rounds use days, and removes unused data after 30 days', async () => {

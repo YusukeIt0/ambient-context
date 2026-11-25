@@ -4,9 +4,9 @@ import assert from 'node:assert/strict';
 import { mkdtemp, rm, readdir } from 'node:fs/promises';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
-import { LocalGeography, type GeographyUpdate } from '../server/geography/loader.ts';
-import { GeographicCache } from '../server/geography/cache.ts';
-import { geographicRegion } from '../server/geography/overture.ts';
+import { LocalGeography, type GeographyUpdate } from '../src/geography/loader.ts';
+import { GeographicCache } from '../src/geography/cache.ts';
+import { geographicRegion } from '../src/geography/overture.ts';
 
 test('worker resolves reusable region data against each latest fix without persisting phone measurements',async()=>{
  const directory=await mkdtemp(join(tmpdir(),'dot-map-worker-'));

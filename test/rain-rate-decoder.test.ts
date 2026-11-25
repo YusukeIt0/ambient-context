@@ -4,9 +4,9 @@ import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { test } from 'node:test';
 import { crc32, gunzipSync } from 'node:zlib';
-import { compareRainRateSamples, decodeRainRate, probeRainRateFrame } from '../server/weather/rain-rate/decoder.ts';
-import { frameFromKey } from '../server/weather/rain-rate/discovery.ts';
-import { summarizeRainRate } from '../server/weather/rain-rate/raster.ts';
+import { compareRainRateSamples, decodeRainRate, probeRainRateFrame } from '../src/weather/rain-rate/decoder.ts';
+import { frameFromKey } from '../src/weather/rain-rate/discovery.ts';
+import { summarizeRainRate } from '../src/weather/rain-rate/raster.ts';
 
 const key = 'BLEND/RainRate-Blend-INST/2026/11/20/16/RRQPE-INST-GLB-1_v1r1_blend_s202611201640000_e202611201649599_c202611201654584.nc';
 const seam = {latitude: 0, longitude: -180};

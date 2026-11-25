@@ -3,8 +3,8 @@ import assert from 'node:assert/strict';
 import { mkdtemp, rm } from 'node:fs/promises';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
-import { GeographicCache } from '../server/geography/cache.ts';
-import { MapDownload, validMapURL } from '../server/geography/download.ts';
+import { GeographicCache } from '../src/geography/cache.ts';
+import { MapDownload, validMapURL } from '../src/geography/download.ts';
 const URL = 'https://overturemapswestus2.blob.core.windows.net/release/2026-10-21.0/theme=base/type=land/part.parquet';
 
 test('bounded range reader reuses only exact validated bytes and caps concurrency', async () => {
