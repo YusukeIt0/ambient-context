@@ -9,7 +9,7 @@ const directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'] as const;
 const areaNames = ['within_5_km', ...directions] as const;
 const source = {
   provider: 'NOAA/NESDIS Enterprise Rain Rate', data_kind: 'satellite_precipitation_rate_estimate',
-  transformation: 'Dot Link summary of NOAA grid cells', rate_unit: 'mm/h', grid_spacing_degrees: 0.02,
+  transformation: 'Ambient Context summary of NOAA grid cells', rate_unit: 'mm/h', grid_spacing_degrees: 0.02,
   inner_radius_km: 5, outer_radius_km: 20,
 } as const;
 const cellCount = z.number().int().min(0).max(2048);

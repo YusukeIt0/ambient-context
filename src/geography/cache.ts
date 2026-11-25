@@ -5,7 +5,7 @@ import { constants } from 'node:fs';
 
 const DAY = 86_400_000;
 const KEY = /^[a-f0-9]{64}\.bin$/;
-const MAGIC = 'dot-link-map-cache-v1';
+const MAGIC = 'ambient-context-map-cache-v1';
 export const MAP_CACHE_BYTES = 256 * 1024 * 1024;
 export const MAP_ENTRY_BYTES = 32 * 1024 * 1024;
 

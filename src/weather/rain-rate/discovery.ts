@@ -2,7 +2,7 @@ import {crc32} from 'node:zlib';
 
 const HOST = 'https://noaa-enterprise-rainrate-pds.s3.us-east-1.amazonaws.com/';
 const ROOT = 'BLEND/RainRate-Blend-INST/';
-const AGENT = 'DotLink/WeatherContext (+https://github.com/YusukeIt0/dot-link)';
+import { LIBRARY_AGENT as AGENT } from '../../identity.ts';
 const HOUR = 3_600_000;
 export const FRAME_AGE = 45 * 60_000;
 export const OBJECT_LIMIT = 8 * 1024 * 1024;

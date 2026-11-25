@@ -2,7 +2,7 @@ import { GeographicCache } from './cache.ts';
 
 const CHUNK = 256 * 1024;
 const REQUEST_CHUNKS = 8;
-const AGENT = 'DotLink/GeographicContext (+https://github.com/YusukeIt0/dot-link)';
+import { LIBRARY_AGENT as AGENT } from '../identity.ts';
 const HOSTS = new Set(['stac.overturemaps.org', 'overturemapswestus2.blob.core.windows.net']);
 export function validMapURL(value: string): URL {
   const url = new URL(value);

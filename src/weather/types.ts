@@ -44,7 +44,7 @@ export const weatherSource = {
   name: 'MET Norway', provider: 'met-norway-locationforecast-2',
   url: 'https://api.met.no/weatherapi/locationforecast/2.0/documentation',
   license: 'CC BY 4.0', license_url: 'https://creativecommons.org/licenses/by/4.0/',
-  attribution: 'Based on data from MET Norway; normalized and subset by Dot Link.',
+  attribution: 'Based on data from MET Norway; normalized and subset by Ambient Context.',
 };
 export interface WeatherEvidence {
   status: 'ready' | 'partial' | 'stale' | 'unavailable';

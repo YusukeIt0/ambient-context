@@ -7,7 +7,7 @@ import type {NearbyRainRead, RainRateService} from './rain-rate/service.ts';
 
 const iso = (instant: number) => new Date(instant).toISOString();
 const source = {provider: 'NOAA/NESDIS Enterprise Rain Rate', product: 'BLEND instantaneous precipitation rate',
-  attribution: 'Nearby estimates derived by Dot Link from NOAA Enterprise Rain Rate.',
+  attribution: 'Nearby estimates derived by Ambient Context from NOAA Enterprise Rain Rate.',
   url: 'https://registry.opendata.aws/noaa-ghe/'};
 const limitations = [
   'The central area is within 5 km; the eight compass sectors cover the ring from 5 to 20 km.',

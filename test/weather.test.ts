@@ -8,6 +8,9 @@ import { WeatherCache, pruneWeatherCache, type WeatherCacheState } from '../src/
 import { WeatherService } from '../src/weather/service.ts';
 import { archiveRetrievalConfirmed } from '../src/weather/types.ts';
 import { weatherQueryPoint, type WeatherPoint, type WeatherProvider, type WeatherProviderResult } from '../src/weather/types.ts';
+import { LIBRARY_AGENT } from '../src/identity.ts';
+
+const UA = 'AmbientContextTests/1.0 (+https://example.com/contact)';
 
 const HOUR = 3_600_000;
 const NOW = Date.parse('2026-11-10T09:20:00Z');
@@ -301,9 +304,9 @@ test('cache file uses private permissions, validates size/schema and never follo
 
 test('transport sends app identity, coarse coordinates and conditional header; never sends credentials', async () => {
   let called = false;
-  const provider = new MetNorwayProvider(async (url, init) => {
+  const provider = new MetNorwayProvider(UA, async (url, init) => {
     called = true; assert.match(String(url), /lat=35.68&lon=139.76/); assert.equal(init?.credentials, 'omit');
-    const headers = new Headers(init?.headers); assert.match(headers.get('user-agent')!, /Dot-Link\/.+github.com\/YusukeIt0\/dot-link/);
+    const headers = new Headers(init?.headers); assert.equal(headers.get('user-agent'), `${UA} ${LIBRARY_AGENT}`);
     assert.equal(headers.get('if-modified-since'), new Date(NOW - HOUR).toUTCString());
     return new Response(JSON.stringify(fixture()), {headers: {'Expires': new Date(NOW + HOUR).toUTCString()}});
   }, () => NOW);
@@ -313,18 +316,18 @@ test('transport sends app identity, coarse coordinates and conditional header; n
 
 test('transport rejects foreign redirects and bounds actual body bytes even without content-length', async () => {
   let calls = 0;
-  const redirect = new MetNorwayProvider(async () => {calls++; return new Response(null, {status: 302, headers: {location: 'https://example.test/steal'}});}, () => NOW);
+  const redirect = new MetNorwayProvider(UA, async () => {calls++; return new Response(null, {status: 302, headers: {location: 'https://example.test/steal'}});}, () => NOW);
   await assert.rejects(redirect.load(POINT, undefined, new AbortController().signal), /redirect/); assert.equal(calls, 1);
-  const oversized = new MetNorwayProvider(async () => new Response('x'.repeat(512 * 1024 + 1)), () => NOW);
+  const oversized = new MetNorwayProvider(UA, async () => new Response('x'.repeat(512 * 1024 + 1)), () => NOW);
   await assert.rejects(oversized.load(POINT, undefined, new AbortController().signal), /too large/);
 });
 
 test('transport reports 203, 304 and rate limiting without exposing the request URL', async () => {
-  const deprecated = new MetNorwayProvider(async () => new Response(JSON.stringify(fixture()), {status: 203}), () => NOW);
+  const deprecated = new MetNorwayProvider(UA, async () => new Response(JSON.stringify(fixture()), {status: 203}), () => NOW);
   assert.equal((await deprecated.load(POINT, undefined, new AbortController().signal)).deprecated, true);
-  const unchanged = new MetNorwayProvider(async () => new Response(null, {status: 304}), () => NOW);
+  const unchanged = new MetNorwayProvider(UA, async () => new Response(null, {status: 304}), () => NOW);
   assert.equal((await unchanged.load(POINT, undefined, new AbortController().signal)).notModified, true);
-  const limited = new MetNorwayProvider(async () => new Response(null, {status: 429, headers: {'retry-after': '300'}}), () => NOW);
+  const limited = new MetNorwayProvider(UA, async () => new Response(null, {status: 429, headers: {'retry-after': '300'}}), () => NOW);
   await assert.rejects(limited.load(POINT, undefined, new AbortController().signal), error => error instanceof WeatherSourceError && error.retryAt === NOW + 300_000 && !error.message.includes('lat='));
 });
 
@@ -352,4 +355,13 @@ test('first request failure retains the documented conservative identical-query 
   f.advance(HOUR + 1);
   await restarted.query(POINT, new AbortController().signal, () => {});
   assert.equal(f.calls(), 2);
+});
+
+test('MET Norway access requires the integrating application to identify itself', () => {
+  for (const ua of [undefined, '', '   ', 'x', ' padded/1.0', 'MyApp/1.0\nInjected: header', 'é/1.0']) {
+    assert.throws(() => new MetNorwayProvider(ua as string, async () => new Response()), /identifying User-Agent/, String(ua));
+  }
+  assert.throws(() => new WeatherService('/unused'), /identifying User-Agent/);
+  const service = new WeatherService('/unused', {userAgent: UA});
+  service.close();
 });

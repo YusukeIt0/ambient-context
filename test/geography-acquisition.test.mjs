@@ -5,10 +5,10 @@ import { fileURLToPath } from 'node:url';
 
 // Mock only the Parquet parser boundary. The acquisition owner, cap admission,
 // progress snapshots and cancellation below are the production implementation.
-if (!process.env.DOTLINK_GEOGRAPHY_PARSER_TEST) {
+if (!process.env.AMBIENT_CONTEXT_GEOGRAPHY_PARSER_TEST) {
  test('acquisition publishes bounded partial evidence and preserves final admission order',()=>{
   const child=spawnSync(process.execPath,['--experimental-test-module-mocks','--test',fileURLToPath(import.meta.url)],{
-   env:{...process.env,DOTLINK_GEOGRAPHY_PARSER_TEST:'1'},encoding:'utf8',timeout:20_000,
+   env:{...process.env,AMBIENT_CONTEXT_GEOGRAPHY_PARSER_TEST:'1'},encoding:'utf8',timeout:20_000,
   });
   assert.equal(child.status,0,child.stdout+child.stderr);
  });

@@ -1,9 +1,8 @@
-import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { z } from 'zod';
+import { applicationAgent } from '../identity.ts';
 import { weatherForecastSchema, type WeatherForecast, type WeatherPoint, type WeatherProvider, type WeatherProviderResult, type WeatherSample } from './types.ts';
 
-const {version} = JSON.parse(readFileSync(new URL('../../package.json', import.meta.url), 'utf8')) as {version: string};
 const HOUR = 3_600_000;
 const MAX_BYTES = 512 * 1024;
 const details = z.record(z.string(), z.unknown());
@@ -71,12 +70,14 @@ export class MetNorwayProvider implements WeatherProvider {
   readonly id = 'met-norway-locationforecast-2' as const;
   private readonly request: typeof fetch;
   private readonly now: () => number;
-  constructor(request: typeof fetch = fetch, now = Date.now) {this.request = request; this.now = now;}
+  private readonly agent: string;
+  /** `userAgent` identifies your application to MET Norway (required by its terms of service). */
+  constructor(userAgent: string, request: typeof fetch = fetch, now = Date.now) {this.agent = applicationAgent(userAgent); this.request = request; this.now = now;}
   async load(point: WeatherPoint, lastModified: string | undefined, signal: AbortSignal): Promise<WeatherProviderResult> {
     const query = new URL('https://api.met.no/weatherapi/locationforecast/2.0/compact');
     query.searchParams.set('lat', point.latitude.toFixed(2)); query.searchParams.set('lon', point.longitude.toFixed(2));
     const combined = AbortSignal.any([signal, AbortSignal.timeout(15_000)]);
-    const headers: Record<string, string> = {'User-Agent': `Dot-Link/${version} (+https://github.com/YusukeIt0/dot-link)`, 'Accept-Encoding': 'gzip, deflate'};
+    const headers: Record<string, string> = {'User-Agent': this.agent, 'Accept-Encoding': 'gzip, deflate'};
     if (lastModified && Number.isFinite(Date.parse(lastModified)) && Date.parse(lastModified) <= this.now()) headers['If-Modified-Since'] = lastModified;
     let url = query;
     for (let redirects = 0; redirects <= 2; redirects++) {

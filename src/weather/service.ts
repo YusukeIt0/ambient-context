@@ -10,7 +10,7 @@ const limitations = [
   'Query coordinates are rounded to 0.01 degrees. Regional detail varies; global model spacing is approximately 9 km, Nordic/Arctic short-range models approximately 2.5 km. The response does not identify the selected model.',
   'Complex terrain, coastlines and local showers may not be resolved. Elevation is provider model terrain, not a phone altitude measurement.',
   'Precipitation applies to its explicit future interval, not an instantaneous rain observation. Missing fields are unknown, not zero.',
-  'No apparent temperature or safety recommendation is calculated by Dot Link.',
+  'No apparent temperature or safety recommendation is calculated by Ambient Context.',
 ];
 function useful(sample: WeatherEvidence['current']) {
   return !!sample && (sample.temperature_c !== null || sample.humidity_percent !== null || sample.wind_m_s !== null || sample.precipitation.some(p => p.amount_mm !== null));
@@ -64,8 +64,9 @@ export class WeatherService {
   private controller?: AbortController;
   private maintenance?: ReturnType<typeof setInterval>;
   private closed = false;
-  constructor(path: string, options: {provider?: WeatherProvider; cache?: Pick<WeatherCache, 'read' | 'write'>; now?: () => number; random?: () => number} = {}) {
-    this.cache = options.cache ?? new WeatherCache(path); this.provider = options.provider ?? new MetNorwayProvider();
+  constructor(path: string, options: {userAgent?: string; provider?: WeatherProvider; cache?: Pick<WeatherCache, 'read' | 'write'>; now?: () => number; random?: () => number} = {}) {
+    this.provider = options.provider ?? new MetNorwayProvider(options.userAgent as string);
+    this.cache = options.cache ?? new WeatherCache(path);
     this.now = options.now ?? Date.now; this.random = options.random ?? Math.random;
   }
   private async initialize() {
